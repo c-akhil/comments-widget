@@ -10,7 +10,12 @@ const CommentWidgetLayout = styled.div`
 `;
 
 export default function CommentBoxWidget({ user }) {
-  const [comments, setComments] = useState(INITIAL_COMMENTS);
+  const [comments, setCommentsState] = useState(INITIAL_COMMENTS);
+
+  const setComments = (data) => {
+    localStorage.setItem('INITIAL_COMMENTS', JSON.stringify(data));
+    setCommentsState(data);
+  }
 
   const addComment = (comment, replyToCommentId = undefined) => {
     // api call

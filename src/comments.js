@@ -1,6 +1,6 @@
 const LOCAL_COMMENTTS = localStorage.getItem("INITIAL_COMMENTS");
 export const INITIAL_COMMENTS = LOCAL_COMMENTTS
-  ? JSON.stringify(LOCAL_COMMENTTS)
+  ? JSON.parse(LOCAL_COMMENTTS)
   : Object.freeze([
     {
       name: "Eman K",
