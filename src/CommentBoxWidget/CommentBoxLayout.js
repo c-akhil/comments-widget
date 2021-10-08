@@ -42,6 +42,23 @@ export default function CommentBoxWidget({ user }) {
     }
   };
 
+  const setCommentLike = (likeStatus, likeToCommentId) => {
+    const likeReplyComment = (replay) => {
+      for (let i = 0; i < replay.length; i++) {
+        if (replay[i].id === likeToCommentId) {
+          replay[i].liked = likeStatus;
+          setComments([...comments]);
+          return
+        } else {
+          if (replay[i].reply && replay[i].reply.length) {
+            likeReplyComment(replay[i].reply)
+          }
+        }
+      }
+    }
+    likeReplyComment(comments);
+  }
+
   const removeComment = (commentId) => {
     const deleteComment = (replay) => {
       for (let i = 0; i < replay.length; i++) {
@@ -64,7 +81,7 @@ export default function CommentBoxWidget({ user }) {
     <CommentWidgetLayout>
       <CommentInputBox user={user} addComment={addComment} />
       {comments?.map((comment, i) => {
-        return <Comment user={user} comment={comment} removeComment={removeComment} addComment={addComment} key={`comment-${i}`} />;
+        return <Comment user={user} comment={comment} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} key={`comment-${i}`} />;
       })}
     </CommentWidgetLayout>
   );

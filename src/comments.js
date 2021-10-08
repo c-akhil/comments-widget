@@ -6,6 +6,7 @@ export const INITIAL_COMMENTS = LOCAL_COMMENTTS
       name: "Eman K",
       profilePic: "/profiles/dp1.jpg",
       id: 1,
+      liked: true,
       message: "comment 1",
       time: new Date().getTime(),
       reply: []
@@ -37,6 +38,7 @@ export const INITIAL_COMMENTS = LOCAL_COMMENTTS
               name: "Eman K",
               id: 35,
               profilePic: "/profiles/dp1.jpg",
+              liked: true,
               time: new Date().getTime() - 2 * 60 * 60 * 1000,
               message: "thread 2 comment 1"
             },

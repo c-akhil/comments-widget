@@ -49,7 +49,7 @@ const DeleteIcon = styled.div`
   color: #b7b4b4;
 `
 
-export default function Comment({ user, comment, addComment, removeComment }) {
+export default function Comment({ user, comment, addComment, removeComment, setCommentLike }) {
 
   const [isReplyOpen, setReplayOpen] = useState(false);
   const [isReplayCollapsed, setReplayCollapsed] = useState(true);
@@ -61,10 +61,10 @@ export default function Comment({ user, comment, addComment, removeComment }) {
         <CommentDetails>
           <CommentTitle>{comment.name}</CommentTitle>
           <CommentMessage>{comment.message}</CommentMessage>
-          <DeleteIcon onClick={() =>{ removeComment(comment.id) }}>X</DeleteIcon>
+          <DeleteIcon onClick={() => { removeComment(comment.id) }}>X</DeleteIcon>
         </CommentDetails>
         <CommentReactions>
-          <CommentReaction>Like</CommentReaction> .
+          <CommentReaction onClick={() => setCommentLike(!comment.liked, comment.id)}>{comment.liked ? 'Unlike' : 'Like'}</CommentReaction> .
           <CommentReaction onClick={() => setReplayOpen(!isReplyOpen)}>Reply</CommentReaction> .
           <CommentReaction>{getTimeFromNow(comment.time)}</CommentReaction>
         </CommentReactions>
@@ -78,7 +78,7 @@ export default function Comment({ user, comment, addComment, removeComment }) {
     </ReplayConatiner> :
       <ReplayConatiner>
         {comment.reply.map((reply, i) => {
-          return <Comment user={user} key={`reply-${i}`} removeComment={removeComment} addComment={addComment} comment={reply} />
+          return <Comment user={user} key={`reply-${i}`} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} comment={reply} />
         })}
       </ReplayConatiner>)}
   </React.Fragment>
