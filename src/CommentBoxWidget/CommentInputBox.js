@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ProfilePic } from "../utils/styledComponents";
 
 const CommentInputContainer = styled.div`
   display: flex;
@@ -10,14 +11,11 @@ const CommentInput = styled.input`
   width: calc(100% - 60px);
   height: 40px;
   border-radius: 15px;
+  padding-left: 15px;
+  background: #f0f2f5;
+  border: none;
 `;
-const ProfilePic = styled.img`
-  display: inline-block;
-  height: 40px;
-  width: 40px;
-  margin-right: 10px;
-  border-radius: 50%;
-`;
+
 
 export default function CommentInputBox({ user }) {
   return (

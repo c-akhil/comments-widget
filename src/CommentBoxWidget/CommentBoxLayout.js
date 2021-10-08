@@ -25,8 +25,8 @@ export default function CommentBoxWidget({ user }) {
   return (
     <CommentWidgetLayout>
       <CommentInputBox user={user} addComment={addComment} />
-      {comments?.map((comment) => {
-        return <Comment comment={comment} />;
+      {comments?.map((comment,i) => {
+        return <Comment user={user} comment={comment} key={`comment-${i}`} />;
       })}
     </CommentWidgetLayout>
   );
