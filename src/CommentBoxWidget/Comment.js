@@ -17,6 +17,7 @@ const CommentDetails = styled.div`
   padding: 10px 15px;
   border-radius: 15px;
   background: #f0f2f5;
+  position: relative;
 `
 
 const CommentTitle = styled.div`
@@ -40,8 +41,15 @@ const CommentReaction = styled.span`
 const ReplayConatiner = styled.div`
   margin-left: 50px;
 `;
+const DeleteIcon = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: -15px;
+  bottom: 15px;
+  color: #b7b4b4;
+`
 
-export default function Comment({ user, comment, addComment }) {
+export default function Comment({ user, comment, addComment, removeComment }) {
 
   const [isReplyOpen, setReplayOpen] = useState(false);
   const [isReplayCollapsed, setReplayCollapsed] = useState(true);
@@ -53,6 +61,7 @@ export default function Comment({ user, comment, addComment }) {
         <CommentDetails>
           <CommentTitle>{comment.name}</CommentTitle>
           <CommentMessage>{comment.message}</CommentMessage>
+          <DeleteIcon onClick={() =>{ removeComment(comment.id) }}>X</DeleteIcon>
         </CommentDetails>
         <CommentReactions>
           <CommentReaction>Like</CommentReaction> .
@@ -62,14 +71,14 @@ export default function Comment({ user, comment, addComment }) {
       </CommentDetailsConatiner>
     </CommentContainer>
     {isReplyOpen && <ReplayConatiner>
-      <CommentInputBox user={user} addComment={addComment} commentId={comment.id}/>
+      <CommentInputBox user={user} addComment={addComment} commentId={comment.id} />
     </ReplayConatiner>}
     {comment.reply && comment.reply.length > 0 && (isReplayCollapsed ? <ReplayConatiner onClick={() => { setReplayCollapsed(!isReplayCollapsed) }}>
       &#8627;	{comment.reply.length} replies
     </ReplayConatiner> :
       <ReplayConatiner>
         {comment.reply.map((reply, i) => {
-          return <Comment user={user} key={`reply-${i}`} addComment={addComment} comment={reply} />
+          return <Comment user={user} key={`reply-${i}`} removeComment={removeComment} addComment={addComment} comment={reply} />
         })}
       </ReplayConatiner>)}
   </React.Fragment>

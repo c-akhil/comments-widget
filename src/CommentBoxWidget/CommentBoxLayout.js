@@ -42,16 +42,29 @@ export default function CommentBoxWidget({ user }) {
     }
   };
 
-  // const removeComment = (comment) => {
-  //   // api call
-  //   setComments([...comments, comment]);
-  // };
+  const removeComment = (commentId) => {
+    const deleteComment = (replay) => {
+      for (let i = 0; i < replay.length; i++) {
+        if (replay[i].id === commentId) {
+          replay.splice(i, 1);
+          setComments([...comments]);
+          return
+        } else {
+          if (replay[i].reply && replay[i].reply.length) {
+            deleteComment(replay[i].reply)
+          }
+        }
+      }
+    }
+    deleteComment(comments)
+  }
+
 
   return (
     <CommentWidgetLayout>
       <CommentInputBox user={user} addComment={addComment} />
       {comments?.map((comment, i) => {
-        return <Comment user={user} comment={comment} addComment={addComment} key={`comment-${i}`} />;
+        return <Comment user={user} comment={comment} removeComment={removeComment} addComment={addComment} key={`comment-${i}`} />;
       })}
     </CommentWidgetLayout>
   );
