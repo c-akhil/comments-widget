@@ -43,7 +43,8 @@ const ReplayConatiner = styled.div`
 
 export default function Comment({ user, comment }) {
 
-  const [isReplyOpen, setReplayOpen] = useState(false)
+  const [isReplyOpen, setReplayOpen] = useState(false);
+  const [isReplayCollapsed, setReplayCollapsed] = useState(true);
 
 
   return (<React.Fragment>
@@ -64,11 +65,14 @@ export default function Comment({ user, comment }) {
     {isReplyOpen && <ReplayConatiner>
       <CommentInputBox user={user} />
     </ReplayConatiner>}
-    {comment.reply && <ReplayConatiner>
-      {comment.reply.map((reply) => {
-        return <Comment user={user} comment={reply} />
-      })}
-    </ReplayConatiner>}
+    {comment.reply && comment.reply.length > 0 && (isReplayCollapsed ? <ReplayConatiner onClick={() => { setReplayCollapsed(!isReplayCollapsed) }}>
+      &#8627;	{comment.reply.length} replies
+      </ReplayConatiner> :
+      <ReplayConatiner>
+        {comment.reply.map((reply) => {
+          return <Comment user={user} comment={reply} />
+        })}
+      </ReplayConatiner>)}
   </React.Fragment>
   );
 }
