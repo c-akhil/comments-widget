@@ -12,6 +12,8 @@ const CommentWidgetLayout = styled.div`
 export default function CommentBoxWidget({ user }) {
   const [comments, setCommentsState] = useState(INITIAL_COMMENTS);
 
+  const [focusCommentId , setFocusCommentId] = useState('main')
+
   const setComments = (data) => {
     localStorage.setItem('INITIAL_COMMENTS', JSON.stringify(data));
     setCommentsState(data);
@@ -79,9 +81,9 @@ export default function CommentBoxWidget({ user }) {
 
   return (
     <CommentWidgetLayout>
-      <CommentInputBox user={user} addComment={addComment} />
+      <CommentInputBox commentInputId={'main'} focusCommentId={focusCommentId} setFocusCommentId={setFocusCommentId} user={user} addComment={addComment} />
       {comments?.map((comment, i) => {
-        return <Comment user={user} comment={comment} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} key={`comment-${i}`} />;
+        return <Comment commentInputId={comment.id} focusCommentId={focusCommentId} setFocusCommentId={setFocusCommentId} user={user} comment={comment} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} key={`comment-${comment.id}`} />;
       })}
     </CommentWidgetLayout>
   );

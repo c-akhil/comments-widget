@@ -18,7 +18,7 @@ const CommentInput = styled.input`
 `;
 
 
-export default function CommentInputBox({ user, addComment, commentId }) {
+export default function CommentInputBox({ user, addComment, commentId, commentInputId, focusCommentId }) {
 
   const [inputComment, setInputComment] = useState('')
 
@@ -27,6 +27,7 @@ export default function CommentInputBox({ user, addComment, commentId }) {
     <CommentInputContainer>
       <ProfilePic src={user.profilePic} />
       <CommentInput
+        autoFocus={commentInputId == focusCommentId}
         value={inputComment}
         onChange={(e) => {
           setInputComment(e.target.value)
@@ -35,7 +36,7 @@ export default function CommentInputBox({ user, addComment, commentId }) {
           if (e.key === 'Enter') {
             addComment({
               profilePic: user.profilePic,
-              id:  new Date().getTime() ,// some random id
+              id: new Date().getTime(),// some random id
               name: user.name,
               message: e.target.value,
               time: new Date().getTime(),

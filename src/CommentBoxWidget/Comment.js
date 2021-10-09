@@ -49,7 +49,7 @@ const DeleteIcon = styled.div`
   color: #b7b4b4;
 `
 
-export default function Comment({ user, comment, addComment, removeComment, setCommentLike }) {
+export default function Comment({ user, comment, addComment, removeComment, setCommentLike, focusCommentId ,setFocusCommentId }) {
 
   const [isReplyOpen, setReplayOpen] = useState(false);
   const [isReplayCollapsed, setReplayCollapsed] = useState(true);
@@ -65,20 +65,23 @@ export default function Comment({ user, comment, addComment, removeComment, setC
         </CommentDetails>
         <CommentReactions>
           <CommentReaction onClick={() => setCommentLike(!comment.liked, comment.id)}>{comment.liked ? 'Unlike' : 'Like'}</CommentReaction> .
-          <CommentReaction onClick={() => setReplayOpen(!isReplyOpen)}>Reply</CommentReaction> .
+          <CommentReaction onClick={() => {
+            setReplayOpen(!isReplyOpen);
+            setFocusCommentId(comment.id);
+          }}>Reply</CommentReaction> .
           <CommentReaction>{getTimeFromNow(comment.time)}</CommentReaction>
         </CommentReactions>
       </CommentDetailsConatiner>
     </CommentContainer>
     {isReplyOpen && <ReplayConatiner>
-      <CommentInputBox user={user} addComment={addComment} commentId={comment.id} />
+      <CommentInputBox user={user} addComment={addComment} commentId={comment.id} commentInputId={comment.id} focusCommentId={focusCommentId} />
     </ReplayConatiner>}
     {comment.reply && comment.reply.length > 0 && (isReplayCollapsed ? <ReplayConatiner onClick={() => { setReplayCollapsed(!isReplayCollapsed) }}>
       &#8627;	{comment.reply.length} replies
     </ReplayConatiner> :
       <ReplayConatiner>
         {comment.reply.map((reply, i) => {
-          return <Comment user={user} key={`reply-${i}`} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} comment={reply} />
+          return <Comment commentInputId={comment.id} focusCommentId={focusCommentId} user={user} key={`reply-${comment.id}`} removeComment={removeComment} setCommentLike={setCommentLike} addComment={addComment} setFocusCommentId={setFocusCommentId} comment={reply} />
         })}
       </ReplayConatiner>)}
   </React.Fragment>
